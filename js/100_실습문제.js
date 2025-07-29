@@ -10,7 +10,7 @@ $(document).ready(function () {
   $("#p2-toggleBtn").click(function () {
     // 이미지 하나를 img 폴더 내에 저장 후 이미지 변경<img src > 에서
     // HINT: #p2-myImage 요소를 .toggle()을 사용해 숨기거나 보이게 하세요. (속도를 500으로 줘보세요)
-    $("#p2-myImage").toggle();
+    $("#p2-myImage").toggle(500);
   });
 
   // 문제 3: 슬라이드 토글
@@ -55,6 +55,7 @@ $(document).ready(function () {
   // 문제 8: 아코디언
   $(".p8-question").click(function () {
     // HINT: 클릭된 자신($(this))의 다음에 오는(.next()) .p8-answer를 .slideToggle() 하세요.
+    $($(this)).next().text("p8-answer").slideToggle();
   });
 
   // 문제 9: 카운터
@@ -71,5 +72,14 @@ $(document).ready(function () {
     // HINT: .animate() 메서드를 사용하세요.
     // 첫 번째 인자로 { width: "300px", opacity: 0.5 } 형태의 CSS 객체를,
     // 두 번째 인자로 시간(1500)을 전달합니다.
+    // 사용자 지정 메서드()
+    // animate({css속성정의}, 시간, 콜백함수)
+    $("#p10-myBox").animate(
+      {
+        width: "300px",
+        opacity: 0.5,
+      },
+      1500
+    );
   });
 });
