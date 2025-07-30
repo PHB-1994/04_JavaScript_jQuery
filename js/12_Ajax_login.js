@@ -7,8 +7,8 @@ $(function () {
   $("#로그인기능").click(function (e) {
     // 1. button 제출 방지
     e.preventDefault(); // submit 잠시 멈춤 -> 정규식이나 비밀번호 아이디 일치하는지 확인하고 제출
-    const abc = $("#username").val;
-    const password = $("#password").val;
+    const abc = $("#username").val();
+    const password = $("#password").val();
 
     $.ajax({
       url: "../json/data.json", // json 파일이 위치한 곳으로 url 주소 설정
@@ -35,12 +35,22 @@ $(function () {
         예를들어 username.value 값으로 admin 이 들어왔을 경우
         users[abc] -> users[admin] 으로 변경되어 admin 과 일치하는 아아디를 검색
         */
-        if (data.users[abc].password === password) {
-          $("#result").html(`로그인성공! 환영합니다.${data.users[abc].name}님`);
-          $("#로그인기능").hide();
-          $("#로그아웃기능").show();
+        if (data.users[abc]) {
+          // 사용자가 존재할 때
+          if (data.users[abc].password === password) {
+            // 사용자도 존재하고, 비밀번호도 일치한다면
+            $("#result").html(
+              `로그인성공! 환영합니다.${data.users[abc].name}님`
+            );
+            $("#로그인기능").hide();
+            $("#로그아웃기능").show();
+          } else {
+            // 사용자가 존재하지만, 비밀번호가 일치하지 않을 때
+            $("#result").html(`일치하는 아이디나 비밀번호가 없습니다.`);
+          }
         } else {
-          $("#result").html(`일치하는 아이디나 비밀번호가 없습니다.`);
+          // 사용자가 존재하지 않을 때
+          $("#result").html("존재하는 아이디가 없습니다.");
         }
       },
       error: function () {
@@ -53,5 +63,11 @@ $(function () {
     // 로그아웃을 진행할 경우
     // 로그인 기능 show 보여주기
     // 로그아웃 기능 hide 숨기기 설정
+    e.preventDefault(); // 로그아웃 button 태그 내부에 type=submit 로 설정되어 있어, 제출 방지
+    $("#로그인기능").show();
+    $("#로그아웃기능").hide();
+    $("#username").val("");
+    $("#password").val("");
+    $("#result").html(`로그아웃이 완료되었습니다.`);
   });
 });
