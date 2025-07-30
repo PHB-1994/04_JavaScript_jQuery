@@ -46,7 +46,6 @@ $(function () {
         // 책 제목이 존재하지 않는다면
         $("#result").html(`${bookTitle}와 존재하는 책이 없습니다.`);
       }
-      $("#검색초기화").click(function () {});
     });
   });
 });
