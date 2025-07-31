@@ -1,9 +1,6 @@
 // jQuery 이벤트 처리와
 // 기능명칭으로 분류하여 기능 호출하기
 
-// 문제 1 : 기본 텍스트 데이터 가져오기
-// 주소 : jsonplaceholder.typicode.com
-
 $(function () {
   $("#btn1").click(문제1번기능);
   // id가 btn1 인 버튼을 클릭했을 때 문제1번기능 함수에 담긴 기능 사
@@ -11,7 +8,13 @@ $(function () {
   $("#btn3").click(getRandom);
   $("#btn4").click(getCommnets);
   $("#btn5").click(errorFn);
+  $("#btn6").click(getPosts);
+  $("#btn7").click(userList);
+  $("#btn8").click(searchUser);
 });
+
+// 문제 1 : 기본 텍스트 데이터 가져오기
+// 주소 : jsonplaceholder.typicode.com
 
 function 문제1번기능() {
   $.get(
@@ -152,4 +155,90 @@ function errorFn() {
             `);
       }
     );
+}
+
+// 문제 6 : 게시물 5개 가져오기
+// 주소 : https://jsonplaceholder.typicode.com/posts?_limit=5
+
+function getPosts() {
+  $.get("https://jsonplaceholder.typicode.com/posts?_limit=5").done(function (
+    data
+  ) {
+    $("#result6").html(
+      // data 가 배열 = 목록 = 리스트 형태로 다수 존재할 경우
+      // data.mpa() 배열 형태를 하나씩 꺼내서 나열하는 메서드
+      data.map((i) => `<p><strong>${i.title}</strong></p>`)
+    );
+  });
+}
+
+// 문제 7 : 유저 목록 모두 조회하기
+// 주소 : https://jsonplaceholder.typicode.com/users
+
+function userList() {
+  $.get("https://jsonplaceholder.typicode.com/users").done(
+    // 데이터 가져오기 성공했을 경우
+    // data.map을 활용해서 모든 유저 목록 확인하기
+    // result7.html (``) 내부에 데이터를 확인
+    // map 내부에서 변수이름은 i 대신 uesr 사용해서
+    // <p>유저닉네임 : ${user.  }<p>
+    // <p>유저이메일 : ${user.  }<p>
+    function (data) {
+      $("#result7").html(
+        data.map(
+          (user) => `
+                    <p>유저닉네임 : ${user.username}</p>
+                    <p>유저이메일 : ${user.email}</p>
+                    `
+        )
+      );
+    }
+  );
+}
+
+// 문제 8 : 검색 기능 구현하기
+// 주소 : https://jsonplaceholder.typicode.com/users
+// 주소 : https://jsonplaceholder.typicode.com/albums/{albumId}/photos?_limit=3
+
+function searchUser() {
+  // 검색된 사용자의 val 값을 가져오기
+  const searchName = $("#searchName").val();
+
+  /*
+  filter()
+  배열 = 목록 = 리스트에서 조건에 맞는 것들만 골라내는 기능
+  배열.filter(조건함수)
+
+  data                     .       filter(          (user) =>                            user.name == searchName)
+  url에서 가져온 데이터들  내에서   걸러낼게요    하나씩 data를 꺼내서 user 변수이름으로 확인  user에서 name과 소비자가 검색한 이름이 일치하는 것들만
+
+  user 라는 변수이름에 담아둘게요
+
+  data                                  : url 에서 가져온 데이터를 담고 있는 변수이름
+    .filter(                            : data 에서 가져온 데이터들을 걸러내는 작업 진행
+            (user) =>                   : 우선은 data = user 서로 가지고 있는 리스트가 동일하지만
+                                        : 추후 소비자가 찾는 이름과 user 내에서 name 키로 일치하는 값만
+                user.name = searchName  : user 변수이름에 담아놓기 설정
+            )
+  */
+
+  // filter() 기능을 이용해서 원하는 소비자 검색으로 걸러내기
+  // 걸러낸 소비자들을 리스트 형태로 가지고 있기.
+  // map 이용해서 하나씩 꺼내지
+  // #result8 에서 보여주기
+  $.get("https://jsonplaceholder.typicode.com/users")
+    .done(function (data) {
+      $("#result8").html(
+        /* 1. 검색에 해당하는 사람들만 걸러내서 목록 형태로 조회 */
+        data
+          .filter((user) => user.name == searchName)
+          .map(
+            (user) => `
+          <p>${user.name}</p>
+          <p>${user.email}</p>
+          `
+          )
+      );
+    })
+    .fail();
 }
