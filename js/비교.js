@@ -1,56 +1,30 @@
-// 사용자 샘플 데이터
-// DB -> Java -> 프론트엔드로 데이터를 가져오거나
-// 프론트엔드 -> Java -> DB 에서 소비자가 요청한 데이터가 존재하는지 확인
-// 존재한다면 DB -> Java -> 프론트엔드로 데이터를 전달 / 없으면 전달할 것이 없음
-
+//  price   검색기능   검색초기화   result
 $(function () {
-  // 로그인 버튼을 클릭했을 때 ajax를 작동!
-  $("#로그인기능").click(function (e) {
-    // 1. button 제출 방지
-    e.preventDefault(); //submit 잠시 멈춤 -> 정규식이나 비밀번호 아이디 일치하는지 확인하고 제출
-    const abc = $("#username").val();
-    const password = $("#password").val();
+  // 과일 불러오기 클릭
+  $("#검색기능").click(function () {
+    $.get("../json/fruits.json", function (data) {
+      console.log("data : ", data);
+      console.log("data.length : ", data.length);
+      /*
+      처음 데이터가 시작할 때 [] 이면 .length 사용 가능!!!
+      처음 데이터가 시작할 때 {} 이면 Object.keys() 데이터를 키나 값만 모은 후 length 처리 진행
+      
+      */
+      const price = $("#price").val();
 
-    $.ajax({
-      url: "../json/data.json", //json 파일이 위치한 곳으로 url 주소 설정
-      method: "GET",
-      dataType: "json",
-      success: function (data) {
-        console.log("성공적으로 json에서 가져온 데이터 확인하기 : ", data);
-        // 만약에 json에서 확인한 데이터와 소비자가 작성한 데이터가 일치한다면
-        /*
-
-        javascript 에서 [] . 으로 데이터를 주고 받을 때의 차이
-        users[abc] = abc의 변수의 값이 admin인 속성을 찾을 때 사용
-
-        users.abc = 속성명이 고정된 문자열 일 때 사용
-        -> users 안에 abc 라는 id가 존재하는가 ?????????????
-
-        users[abc] 
-        -> users 안에 abc 라는 변수 이름으로 가져온 값이 존재하는가 ??
-
-        예를 들어 username.value 값으로 admin 이 들어왔을 경우
-        users[abc] -> users[admin] 으로 변경되어 admin과 일치하는 아이디를 검색
-        */
-        if (data.users[abc].password === password) {
-          $("#result").html(
-            `로그인성공! 환영합니다. ${data.users[abc].name} 님`
-          );
-          $("#로그인기능").hide();
-          $("#로그아웃기능").show();
+      for (let i = 0; i < data.length; i++) {
+        if (price == data[i].price) {
+          $("#result").html(`
+            ${data[i].name} - ${data[i].price}
+            `);
         } else {
-          $("#result").html("일치하는 아이디나 비밀번호가 없습니다.");
+          $("#result").html(`과일이 존재하지 않습니다.`);
         }
-      },
-      error: function () {
-        alert("데이터 가져오는데 실패했습니다.");
-      },
+      }
     });
+    //$.get 이용해서 JSON 파일에서 과일 데이터 가져오기
   });
-
-  $("#로그아웃기능").click(function (e) {
-    // 로그아웃을 진행할 경우
-    // 로그인기능 show 보여주기
-    // 로그아웃기능 hide 숨기기 설정
-  });
+  // 가격을 검색했을 때 가격에 해당하는 과일이 존재하는지 확인
+  // 검색한 가격이 존재하지 않을 때 해당하는 가격의 과일은 존재하지 않습니다.
+  // 검색한 가격에 해당하는 과일만 확인하기
 });

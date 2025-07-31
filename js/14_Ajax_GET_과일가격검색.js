@@ -11,11 +11,13 @@ $(function () {
       처음 데이터가 시작할 때 [] 이면 .length 사용 가능 !!!
       처음 데이터가 시작할 때 {} 이면 Object.key() 데이터를 키나 값만 모은 후 length 처리 진행
       */
-      const price = $("#pirce").val();
+      const price = $("#price").val();
+
       for (let i = 0; i < data.length; i++) {
         if (price == data[i].price) {
           $("#result").html(`
             ${data[i].name} - ${data[i].price}`);
+          break;
         } else {
           $("#result").html(`과일이 존재하지 않습니다.`);
         }
