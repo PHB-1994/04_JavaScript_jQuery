@@ -47,6 +47,10 @@ function pokeInfo(page) {
   // 1번부터 10번까지 포켓몬 가져오기
 
   $("#pokemonContainer").html(""); // 페이지 변경될 때마다 기존 데이터 없애기
+  // 페이지 번호 변경 설정
+
+  $("#pageInfo").html(`페이지${page}`);
+
   ids.map((i) => {
     $.get(`https://pokeapi.co/api/v2/pokemon/${i}`).done(function (data) {
       $("#pokemonContainer").html(
