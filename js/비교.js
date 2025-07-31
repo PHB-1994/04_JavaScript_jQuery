@@ -1,30 +1,22 @@
-//  price   검색기능   검색초기화   result
-$(function () {
-  // 과일 불러오기 클릭
-  $("#검색기능").click(function () {
-    $.get("../json/fruits.json", function (data) {
-      console.log("data : ", data);
-      console.log("data.length : ", data.length);
-      /*
-      처음 데이터가 시작할 때 [] 이면 .length 사용 가능!!!
-      처음 데이터가 시작할 때 {} 이면 Object.keys() 데이터를 키나 값만 모은 후 length 처리 진행
-      
-      */
-      const price = $("#price").val();
-
-      for (let i = 0; i < data.length; i++) {
-        if (price == data[i].price) {
-          $("#result").html(`
-            ${data[i].name} - ${data[i].price}
-            `);
-        } else {
-          $("#result").html(`과일이 존재하지 않습니다.`);
-        }
-      }
-    });
-    //$.get 이용해서 JSON 파일에서 과일 데이터 가져오기
+function selectAlbum() {
+  const albumId = $("#albumId").val(); // 사용자가 선택한 value 값 가져오기
+  $.get(
+    `https://jsonplaceholder.typicode.com/albums/${albumId}/photos?_limit=3`
+  ).done(function (data) {
+    $("#result9").html(
+      // data.map 형태로 map 내부 변수이름 photo 를 이용해서
+      // select 선택을 진행할 때 filter 를 사용해라 를 만날 수 있음
+      // 주소값에서 작성된 모든 데이터를 조회할 때는
+      // filter  를 굳이 사용하지 않아도 됨!!!!
+      data.map(
+        (photo) => `
+                 <strong> ${photo.title}</strong >
+                 <p> ${photo.url}</p>
+                `
+      )
+      // title url 을
+      //  <strong> ${ title    }</strong >
+      // <p> ${ url    }</p>형태로 가져오기
+    );
   });
-  // 가격을 검색했을 때 가격에 해당하는 과일이 존재하는지 확인
-  // 검색한 가격이 존재하지 않을 때 해당하는 가격의 과일은 존재하지 않습니다.
-  // 검색한 가격에 해당하는 과일만 확인하기
-});
+}
