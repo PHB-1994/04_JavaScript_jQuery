@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>메인페이지</title>
+    <title>error 확인 페이지</title>
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -39,32 +39,19 @@
       </div>
     </nav>
     <div class="container">
-      <h1>로그인</h1>
-      <div class="login-form">
-        <div class="form-group">
-          <label
-            >아이디 :
-            <input type="text" id="username" placeholder="아이디를 입력하세요."
-          /></label>
-        </div>
-        <div class="form-group">
-          <label
-            >비밀번호 :
-            <input
-              type="password"
-              id="password"
-              placeholder="비밀번호를 입력하세요."
-          /></label>
-        </div>
-        <button id="loginBtn">로그인</button>
-        <button id="logoutBtn" style="display: none">로그아웃</button>
-        <div id="loginResult" class="result"></div>
-        <div class="welcome-text">
-          <p>테스트 계정 : admin / 1234</p>
-          <p>user 계정 : user / 1234</p>
-        </div>
-      </div>
+      <h1>⚠ 에러 테스트</h1>
+      <p>다양한 HTTP 에러 상황을 테스트해보기!</p>
+      <select id="errorSelect">
+        <option value="">에러 타입을 선택하세요.</option>
+        <option value="404">404</option>
+        <option value="403">403</option>
+        <option value="500">500</option>
+        <option value="timeOut">timeOut</option>
+        <option value="netWork">netWork</option>
+      </select>
+      <button id="errorBtn">에러 확인하기</button>
+      <div id="errorResult" class="result"></div>
     </div>
-    <script src="../js/index.js"></script>
+    <script src="../js/error.js"></script>
   </body>
 </html>
