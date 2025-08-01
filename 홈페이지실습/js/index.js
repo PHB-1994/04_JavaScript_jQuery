@@ -41,12 +41,40 @@ function loginCheck() {
     <div class="loading">로그인 중입니다.</div>
     `
   );
-  // 1. form-group 숨김처리, loginBtn -> 로그아웃 버튼으로 변경
-  // 2. 로그아웃 버튼 클릭했을 경우 form-group 보이고 로그인 버튼 변경
+
+  // $.get 이용해서 json 에 해당하는 username 과 password 가 일치하는지 확인
+  $.get("../json/userInfo.json")
+    // function (data) { } 익명함수를 idPwCheck 함수 이름을 변경 후
+    // done 내부에서 idPwCheck 함수 호출하여 사용
+    .done(function (data) {
+      if (data.users[username] && data.users[username].password === password) {
+        $(".form-group").hide();
+        $("#loginBtn").hide();
+        $("#logoutBtn").show();
+        $("#loginResult").html(
+          `
+        <div class="success">
+        <p><strong>로그인성공!</strong></p>
+        <p>${username}님, 환영합니다.</p>
+        </div>
+        `
+        );
+      } else {
+        $("#loginResult").html(
+          `
+        <div class="error">아이디 또는 비밀번호가 일치하지 않습니다.</div>
+        `
+        );
+      }
+    })
+    .fail();
+  /* json 사용 없이 test 하는 방법
   if (
     (username === "admin" && password === "1234") ||
     (username === "user" && password === "1234")
   ) {
+    // 1. form-group 숨김처리, loginBtn -> 로그아웃 버튼으로 변경
+    // 2. 로그아웃 버튼 클릭했을 경우 form-group 보이고 로그인 버튼 변경
     $(".form-group").hide();
     $("#loginBtn").hide();
     $("#logoutBtn").show();
@@ -65,6 +93,7 @@ function loginCheck() {
         `
     );
   }
+    */
 }
 
 function logoutCheck() {
@@ -80,9 +109,7 @@ function logoutCheck() {
 
   // 로그아웃 메세지 표시
   $("#loginResult").html(
-    `
-    <div class="success">로그아웃이 완료되었습니다.</div>
-    `
+    `<div class="success">로그아웃이 완료되었습니다.</div>`
   );
 
   // 1초 후 로그아웃 메세지 사라지게 하기
