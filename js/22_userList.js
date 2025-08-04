@@ -1,6 +1,6 @@
 $(function () {
   showUsers();
-  $("#clear-all").click(clearAll);
+  $("#clear-all").click(removeAllUsers);
 });
 
 function showUsers() {
@@ -27,10 +27,12 @@ function showUsers() {
   $("#user-list").html(userHTML);
 }
 
-function clearAll(e) {
-  if (confirm("모든 회원 데이터를 삭제하시겠습니까? ")) {
+function removeAllUsers(e) {
+  e.preventDefault();
+  if (confirm("정말 모든 회원을 삭제하시겠습니까? ")) {
     localStorage.removeItem("userList");
-    alert("모든 상품이 삭제되었습니다.");
-    location.reload();
+
+    alert("모든 회원 정보가 삭제되었습니다.");
+    location.reload(); // 페이지를 새로고침해서 목록을 갱신
   }
 }
