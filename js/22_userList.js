@@ -1,5 +1,6 @@
 $(function () {
   showUsers();
+  $("#clear-all").click(clearAll);
 });
 
 function showUsers() {
@@ -24,4 +25,12 @@ function showUsers() {
   );
 
   $("#user-list").html(userHTML);
+}
+
+function clearAll(e) {
+  if (confirm("모든 회원 데이터를 삭제하시겠습니까? ")) {
+    localStorage.removeItem("userList");
+    alert("모든 상품이 삭제되었습니다.");
+    location.reload();
+  }
 }
