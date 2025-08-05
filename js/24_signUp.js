@@ -22,9 +22,44 @@ $(function () {
   $("#signupForm").submit(function (e) {
     e.preventDefault();
 
+    const email = $("#inputEmail").val();
+
+    if (!email) {
+      alert("이메일 중복확인을 먼저 해주세요");
+      return;
+    }
+
+    const phone = $("#phone").val();
+
+    if (!phone) {
+      alert("전화번호를 입력해주세요.");
+      return;
+    }
+
+    let newUser = {
+      email: email,
+      phone: phone,
+    };
+
+    let userList = JSON.parse(localStorage.getItem("users") || "[]");
+
+    userList.push(newUser);
+
+    alert("회원가입이 완료되었습니다.");
+
+    $("#inputEmail, phone").val("");
+
+    // 이메일 확인
+    // 전화번호 확인
+    // 새 회원 정보
+    // 기존 회원 목록 가져오기
+    // 새 회원 추가
+    // - 성공 메시지 표시
+    // 폼 초기화
+    // 회원 목록 갱신
+
     // TODO:
     // - 입력값 가져오기
     // - localStorage에 저장
-    // - 성공 메시지 표시
   });
 });
