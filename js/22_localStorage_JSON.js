@@ -74,7 +74,6 @@ function searchData(e) {
   } else {
     html += `존재하지 않는 회원입니다.`;
   }
-
   $("#searchResult").html(html);
 }
 
