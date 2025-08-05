@@ -46,12 +46,67 @@ function addData(e) {
 
 function searchData(e) {
   e.preventDefault();
+
+  const serachValue = $("#searchValue").val().trim();
+  let userList = JSON.parse(localStorage.getItem("userList") || "[]");
+
+  // 배열 내부에 검색한 값이 존재하는가?
+
+  const searchResult = userList.filter((data) => data.name === serachValue);
+
+  let html = `<h3>검색 결과</h3>`;
+
+  if (searchResult.length > 0) {
+    // 검색 결과를 보여줄 것
+    html += searchResult
+      .map(
+        (data) =>
+          `
+      <div class="item-row">
+      <strong>${data.name} 님</strong></br>
+      나이 : ${data.age}</br>
+      이메일 : ${data.email}</br>
+      가입일자 : ${data.createAt}</br>
+      </div>      
+      `
+      )
+      .join("");
+  } else {
+    html += `존재하지 않는 회원입니다.`;
+  }
+
+  $("#searchResult").html(html);
 }
 
 function showData(e) {
   e.preventDefault();
+
+  // 로컬스토리지에서 저장된 유저 목록 가져오기
+  let userList = JSON.parse(localStorage.getItem("userList") || "[]");
+  console.log("유저목록 : ", userList);
+  let html = `<h3>저장된 사용자 목록(총 ${userList.length}명)</h3>`;
+
+  // for 문을 사용하되, userList 값을 모두 [i] 로 가져올 것!
+  for (let i = 0; i < userList.length; i++) {
+    html += `
+    ${userList[i].name}님<br>
+    ${userList[i].age}세<br>
+    ${userList[i].email}<br>
+    가입일자 : ${userList[i].createAt}<br><br>
+    `;
+  }
+  $("#allData").html(html);
 }
 
 function clearAllData(e) {
   e.preventDefault();
+
+  // 정말로 모든 사용자를 삭제하시겠습니까 물어본 후
+  // userList 를 [] 만들기
+  if (confirm("정말로 모든 사용자를 삭제하시겠습니까? ")) {
+    // localStorage.removeItem("userList"); = 로컬스토리지 내에서 특정 키만 삭제
+    // localStorage.clear();                = 내부에 존재하는 모~~든 데이터 삭제
+    localStorage.clear();
+    alert("모든 데이터가 삭제되었습니다.");
+  }
 }
